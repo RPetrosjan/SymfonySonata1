@@ -10,6 +10,8 @@ namespace AppBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity
@@ -28,6 +30,39 @@ class User extends BaseUser
     {
         parent::__construct();
         // your own logic
+    }
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="PhoneNumber", type="string", length=25)
+     *
+     * @Assert\NotBlank(message="Please enter your phone number.", groups={"Registration", "Profile"})
+     * @Assert\Length(
+     *     min=7,
+     *     max=25,
+     *     minMessage="The phone number is too short.",
+     *     maxMessage="The phone number is too long.",
+     *     groups={"Registration", "Profile"}
+     * )
+     */
+    private $phoneNumber;
+
+    /**
+     * @return mixed
+     */
+    public function getPhoneNumber()
+    {
+        return $this->phoneNumber;
+    }
+
+    /**
+     * @param mixed $phoneNumber
+     */
+    public function setPhoneNumber($phoneNumber)
+    {
+        $this->phoneNumber = $phoneNumber;
     }
 
 }
