@@ -1,2 +1,5 @@
 layout.logout : Sign Out
 Password : Password
+page.title: Title Page
+page.name: Name Page
+page.route: Route Page

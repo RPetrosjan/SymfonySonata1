@@ -1,2 +1,5 @@
 layout.logout : Déconnexion
 Password : Mot de passe
+page.title: Titre de page
+page.name: Nom Page
+page.route: Route Page

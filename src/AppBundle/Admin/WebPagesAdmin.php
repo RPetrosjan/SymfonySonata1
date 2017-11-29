@@ -20,7 +20,15 @@ class WebPagesAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('pageTitle', 'text')
+            ->add('pageTitle', 'text', array(
+                'label' => $this->trans('page.title')
+            ))
+            ->add('pageName', 'text', array(
+                'label' => $this->trans('page.name')
+            ))
+            ->add('pageRoute', 'text', array(
+                'label' => $this->trans('page.route')
+            ))
             ->add('twigs','entity',
                 array(
                     'class' => 'AppBundle\Entity\Twigs',

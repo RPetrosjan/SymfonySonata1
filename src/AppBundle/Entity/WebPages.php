@@ -37,6 +37,21 @@ class WebPages
     /**
      * @var string
      *
+     * @ORM\Column(name="PageName", type="string", length=255)
+     */
+    private $pageName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="PageRoute", type="string", length=255)
+     */
+    private $pageRoute;
+
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="PageKeyWord", type="string", length=255)
      */
     private $pageKeyWord;
@@ -120,6 +135,56 @@ class WebPages
     {
         return $this->pageTitle;
     }
+
+
+    /**
+     * Set pageName
+     *
+     * @param string $pageName
+     *
+     * @return WebPages
+     */
+    public function setPageName($pageName)
+    {
+        $this->pageName = $pageName;
+        return $this;
+    }
+
+    /**
+     * Get pageName
+     *
+     * @return string
+     */
+    public function getPageName()
+    {
+        return $this->pageName;
+    }
+
+
+
+    /**
+     * Set PageRoute
+     *
+     * @param string $pageRoute
+     *
+     * @return WebPages
+     */
+    public function setPageRoute($pageRoute)
+    {
+        $this->pageRoute = $pageRoute;
+        return $this;
+    }
+
+    /**
+     * Get pageName
+     *
+     * @return string
+     */
+    public function getPageRoute()
+    {
+        return $this->pageRoute;
+    }
+
 
     /**
      * Set pageKeyWord

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}{% endblock %}</title>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="/css/page.css" type="text/css" media="screen">
+    {% endblock %}
+    {% block keywords %}{% endblock %}
+    {% block description %}{% endblock %}
+</head>
+<body>
+<div class="divform">
+    <div class="block_top">
+        <div class="block_icon"></div>
+        <div class="block_login"></div>
+    </div>
+    <div class="block_left">
+    </div>
+    <div class="block_right">
+    </div>
+    <div class="block_footer">
+    </div>
+</div>
+{% block jsscript %}{% endblock %}
+</body>
+</html>
