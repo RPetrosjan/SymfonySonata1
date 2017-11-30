@@ -3,25 +3,39 @@
 <head>
     <meta charset="UTF-8" />
     <title>{% block title %}{% endblock %}</title>
-    {% block stylesheets %}
-        <link rel="stylesheet" href="/css/page.css" type="text/css" media="screen">
-    {% endblock %}
-    {% block keywords %}{% endblock %}
-    {% block description %}{% endblock %}
+    {% block stylesheets %}<link rel="stylesheet" href="/css/page.css" type="text/css" media="screen">{% endblock %}
+
+    <meta name="description" content="{% block description %}{% endblock %}">
+    <meta name="keywords" content="{% block keywords %}{% endblock %}" />
+    <link rel="icon" href="{% block favicon  %}{% endblock %}" type="image/x-icon" />
+
 </head>
 <body>
+{% block divform %}
 <div class="divform">
+    {% block block_top %}
     <div class="block_top">
         <div class="block_icon"></div>
         <div class="block_login"></div>
     </div>
+    {% endblock %}
+    {% block block_partenaire %}
+
+    {% endblock %}
+    {% block block_left %}
     <div class="block_left">
     </div>
+    {% endblock %}
+    {% block block_right %}
     <div class="block_right">
     </div>
+    {% endblock %}
+    {% block block_footer %}
     <div class="block_footer">
     </div>
+    {% endblock %}
 </div>
+{% endblock %}
 {% block jsscript %}{% endblock %}
 </body>
 </html>

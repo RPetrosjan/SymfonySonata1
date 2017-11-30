@@ -13,12 +13,17 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use AppBundle\Entity\TwigsBlocks;
 
 
 class WebPagesAdmin extends AbstractAdmin
 {
     protected function configureFormFields(FormMapper $formMapper)
     {
+        $baseTwig = 'base_web.html.twig';
+        $block = new TwigsBlocks();
+        $ArrayBlocks = $block->getTotalBlocksBase($baseTwig);
+
         $formMapper
             ->add('pageTitle', 'text', array(
                 'label' => $this->trans('page.title')
@@ -37,10 +42,8 @@ class WebPagesAdmin extends AbstractAdmin
                 )
             )
             ->add('pageKeyWord', 'text', array(
-
                 'required' => false,
                 'empty_data' => '',
-
             ))
             ->add('pageDescription', 'text', array(
 
@@ -48,6 +51,43 @@ class WebPagesAdmin extends AbstractAdmin
                 'empty_data' => '',
 
             ))
+            ->end();
+
+            foreach ($ArrayBlocks as $key=>$value){
+
+                if(strstr($value,'block_'))
+                {
+
+                    $formMapper
+                        ->with($value)
+                        ->add('twigs_'.$key,'entity',
+                            array(
+                                'class' => 'AppBundle\Entity\Twigs',
+                                'choice_label' => 'Twig Name',
+                                'multiple' => true,
+                                'mapped'=> false,
+                            )
+                        )
+                        ->end();
+
+                }
+                //commandes
+            }
+
+            /*
+            ->with('Meta data')
+            ->add('twigs','entity',
+                array(
+                    'class' => 'AppBundle\Entity\Twigs',
+                    'choice_label' => 'Twig Name',
+                    'multiple' => true,
+                )
+            )
+            ->end()
+
+            */
+
+
         ;
     }
 
@@ -83,6 +123,8 @@ class WebPagesAdmin extends AbstractAdmin
                     'delete' => array(),
                 )
             ));
+
+
 
     }
 }
