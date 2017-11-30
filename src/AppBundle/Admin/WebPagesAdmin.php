@@ -9,17 +9,71 @@
 
 namespace AppBundle\Admin;
 
+use AppBundle\Entity\SaveBlock;
+use AppBundle\Entity\Twigs;
+use Doctrine\ORM\EntityManager;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use AppBundle\Entity\TwigsBlocks;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 
 class WebPagesAdmin extends AbstractAdmin
 {
+
+
+
+
     protected function configureFormFields(FormMapper $formMapper)
     {
+
+
+        $builder = $formMapper->getFormBuilder();
+        /** @var EntityManager $em */
+        $em = $this->getConfigurationPool()->getContainer()->get('doctrine')->getManager();
+
+
+        //  Ruben 30/10/2017
+        // Pres bumit pour verificatiob si le client (societe exist oui pas)
+
+        //En cas si on choisisre Recuperer liste de projet par Alibeez on verifie si le client exist a la base
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) use($em) {
+
+            //Recuperation des data(s) du formumlaire
+            $data = $event->getData();
+            $element = $event->getForm();
+            dump($data);
+            dump($element);
+
+
+
+            foreach($data as $key => $block) {
+                if(strstr($key, 'twigs_')) {
+                    $myBlock = $em->getRepository('AppBundle:SaveBlock')->findOneBy(array('virtualNames' => $key));
+                    if(is_null($myBlock)) {
+                        $myBlock = new SaveBlock($key);
+                    } else {
+                        $myBlock->setTwigs([]);
+                    }
+
+                    foreach ($block as $twig) {
+                        /** @var Twigs $twigInstance */
+                        $twigInstance = $em->getRepository('AppBundle:Twigs')->find($twig);
+
+                        $myBlock->addTwig($twigInstance);
+                    }
+                    $em->persist($myBlock);
+                }
+            }
+
+            $em->flush();
+
+            die('on est bien !');
+        });
+
         $baseTwig = 'base_web.html.twig';
         $block = new TwigsBlocks();
         $ArrayBlocks = $block->getTotalBlocksBase($baseTwig);
@@ -73,19 +127,6 @@ class WebPagesAdmin extends AbstractAdmin
                 }
                 //commandes
             }
-
-            /*
-            ->with('Meta data')
-            ->add('twigs','entity',
-                array(
-                    'class' => 'AppBundle\Entity\Twigs',
-                    'choice_label' => 'Twig Name',
-                    'multiple' => true,
-                )
-            )
-            ->end()
-
-            */
 
 
         ;
