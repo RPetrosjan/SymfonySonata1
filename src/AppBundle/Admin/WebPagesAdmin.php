@@ -127,8 +127,6 @@ class WebPagesAdmin extends AbstractAdmin
                 }
                 //commandes
             }
-
-
         ;
     }
 
