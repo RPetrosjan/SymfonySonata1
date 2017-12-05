@@ -46,12 +46,14 @@ class WebPagesAdmin extends AbstractAdmin
             $data = $event->getData();
             $element = $event->getForm();
             dump($data);
-            dump($element);
+            //dump($element);
 
 
 
             foreach($data as $key => $block) {
-                if(strstr($key, 'twigs_')) {
+                if(strstr($key, 'block_')) {
+
+                    /** @var SaveBlock $myBlock */
                     $myBlock = $em->getRepository('AppBundle:SaveBlock')->findOneBy(array('virtualNames' => $key));
                     if(is_null($myBlock)) {
                         $myBlock = new SaveBlock($key);
@@ -62,9 +64,10 @@ class WebPagesAdmin extends AbstractAdmin
                     foreach ($block as $twig) {
                         /** @var Twigs $twigInstance */
                         $twigInstance = $em->getRepository('AppBundle:Twigs')->find($twig);
-
                         $myBlock->addTwig($twigInstance);
                     }
+                    $WepPagesInstance = $em->getRepository('AppBundle:WebPages')->find(1);
+                    $myBlock->setWebPages($WepPagesInstance);
                     $em->persist($myBlock);
                 }
             }
@@ -114,12 +117,13 @@ class WebPagesAdmin extends AbstractAdmin
 
                     $formMapper
                         ->with($value)
-                        ->add('twigs_'.$key,'entity',
+                        ->add($value,'entity',
                             array(
                                 'class' => 'AppBundle\Entity\Twigs',
                                 'choice_label' => 'Twig Name',
                                 'multiple' => true,
                                 'mapped'=> false,
+                                'required' => false,
                             )
                         )
                         ->end();

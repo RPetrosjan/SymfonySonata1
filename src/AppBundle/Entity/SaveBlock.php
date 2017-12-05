@@ -34,12 +34,20 @@ class SaveBlock
      private $twigs;
 
     /**
+     * @ORM\ManyToOne(targetEntity="WebPages")
+     */
+    private $WebPages;
+
+
+    /**
      * SaveBlock constructor.
      */
     public function __construct($name)
     {
         $this->twigs = [];
         $this->setVirtualNames($name);
+
+        $this->WebPages = null;
     }
 
     /**
@@ -97,6 +105,22 @@ class SaveBlock
     public function setTwigs($twigs)
     {
         $this->twigs = $twigs;
+    }
+
+    /**
+     * @return WebPages
+     */
+    public function getWebPages()
+    {
+        return $this->WebPages;
+    }
+
+    /**
+     * @param WebPages[] $WebPages
+     */
+    public function setWebPages($WebPages)
+    {
+        $this->WebPages = $WebPages;
     }
 }
 
